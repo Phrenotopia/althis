@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<canvas id="myCanvas" width="1000" height="1000"/>
+		<script>
+		    var canvas = document.getElementById('myCanvas');
+			var context = canvas.getContext('2d');
+
+			var tiles = [0,0,0,0,0,1,0,0,0,0,
+                         0,1,2,2,3,3,3,3,1,0,
+                         0,0,1,2,3,3,3,1,0,0,
+						 0,0,1,2,1,0,0,0,0,0,
+						 0,0,1,2,2,1,0,0,1,1,
+						 0,0,0,1,3,3,1,0,0,1,
+						 0,0,1,3,3,3,3,1,0,0,
+						 0,1,3,3,2,2,3,1,0,0,
+						 0,0,1,1,1,1,2,3,1,0,
+						 0,0,0,0,0,1,0,0,0,0];
+            
+
+
+			var terrain = new Image();
+
+			terrain.onload = function () {
+			    var i = 0;
+			    for (var y = 0; y < 1000; y += 100) {
+			        for (var x = 0; x < 1000; x += 100) {
+			            context.drawImage(terrain, tiles[i] * 100, 0, 100, 100, x, y, 100, 100);
+			            i++;
+			        }
+			    }
+			}
+			terrain.src = "terrainsprites.png";
+		</script>
+	</body>
+</html>

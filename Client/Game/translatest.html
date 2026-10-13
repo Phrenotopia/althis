@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        html, body {margin:0;padding:0;overflow:hidden}
+    </style>
+    <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+</head>
+<body>
+    <p id="mousepos">0,0</p>
+    <p id="action">...</p>
+    <div>
+    <canvas id="canvas"></canvas></div>
+    <script>
+        var ctx = canvas.getContext('2d');
+
+        canvas.width = 800;
+        canvas.height = 600;
+
+        var img = new Image();
+        img.onload = render;
+        img.src = 'terrainsprites.png';
+
+        canvas.addEventListener('mousedown', canvasclick, false);
+        canvas.addEventListener('mousemove', edgecheck, false);
+
+        function canvasclick()
+        {
+            $("#mousepos").text("fokof");
+            //alert('fokof');
+        }
+
+        function edgecheck(e) {
+            //alert(e.layerX);
+            var x , y;
+            x = e.layerX;
+            y = e.layerY;
+            $("#mousepos").text(x + ',' + y);
+
+            switch (true) 
+            {
+                case (x < 16): 
+                    $("#action").text("move left");
+                    break;
+                case (x > 784):
+                    $("#action").text("move right");
+                    break;
+                default:
+                    $("#action").text("...");
+                    break;
+            }
+        }
+        
+        function resize() {
+
+        }
+
+        function render() {
+            ctx.drawImage(img, 0, 0);
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Althis - BETA</title>
+        <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        <script src="../../Scripts/Althis/althis-map-ui.js"></script>
+        <script src="../../Scripts/Althis/althis-map-data.js"></script>
+        <script src="../../Scripts/Althis/althis-map-render.js"></script>
+	</head>
+	<body onload="javascript:Setup()">
+        <div id="">
+            <h1 id="h01"></h1>
+            <p id="fields" style="color: red; font-weight: bold">Map </p>
+            <p>
+                <input id="btnPanleft" type="button" value="<" onclick="MoveLeft()" />
+                <input id="btnPanright" type="button" value=">" onclick="MoveRight()" />
+                <input id="btnZoomin" type="button" value="+" onclick="ZoomIn()" />
+                <input id="btnZoomout" type="button" value="-" onclick="ZoomOut()" />
+                Scale = <span id="scale"></span>
+            </p>
+            <div id="monitor" style="float: right">
+		        <p id="mapdata"></p>
+                <p id="mapdraw"></p>
+            </div>
+        </div>
+        <div><canvas id="myCanvas" width="800" height="600" style="border: 1px solid black;"></canvas></div>
+        <p id="keys"></p>
+		<script>
+		    var map;
+		    var tiles;
+		    var mapid = 1;
+		    var scale;
+		    var pos;
+		    var terrain;
+		    var width;
+		    var height;
+
+		    function Setup() {
+		        map;
+		        tiles = [];
+                scale = 50;
+                pos = 0;
+		        terrain = new Image();
+		        terrain.src = 'terrainsprites.png';
+		        width = 16;
+		        height = 16;
+
+		        $("#scale").text(scale);
+
+		        $.getJSON('/api/map/' + mapid)
+                    .done(function (map) {
+                        tiles = map.Tiles;
+                        $("#mapdata").append("Loaded map: '" + map.Name + "' (" + map.Id + ") with " + tiles.length + " tiles! <br/>");
+                        width = map.Width;
+                        height = map.Height;
+                        //terrain.onload = function () {
+                        DrawCanvas(tiles, terrain, 0, scale, map.Width, map.Height)
+                        //};
+
+                    }).fail(function () { alert("fail!") });
+		    }
+
+		    
+
+		    function ZoomIn() {
+		        var scale = parseInt($("#scale").text());
+		        scale = scale * 2;
+		        if (scale < 400) {
+		            $("#scale").text(scale);
+		            //alert("DrawCanvas(" + tiles.length + "," + scale + "," + width + "," + height + ") ");
+		            DrawCanvas(tiles, terrain, pos, scale, width, height);
+		        }
+		    }
+
+		    function ZoomOut() {
+		        scale = parseInt($("#scale").text());
+
+		        scale = scale / 2;
+		        if (scale * width >= 800) {
+		            $("#scale").text(scale);
+		            DrawCanvas(tiles, terrain, pos, scale, width, height);
+		            //alert("scale: " + scale);
+		        }
+		    }
+
+		    function MoveRight() {
+		        scale = parseInt($("#scale").text());
+		        //alert(pos + "," + myCanvas.width + "," + scale + "," + width);
+		        if ((pos + (myCanvas.width / scale)) < width)
+		        {
+		            pos = pos + 1;
+		            if (pos > width - 1) pos = 0;
+		            //alert("scale: " + scale);
+		            DrawCanvas(tiles, terrain, pos, scale, width, height);
+		        }
+		    }
+
+		    function MoveLeft()
+		    {
+		        scale = parseInt($("#scale").text());
+
+		        if ((pos - 1) >= 0)
+		        {
+		            pos = pos - 1;
+		            //alert("scale: " + scale);
+		            DrawCanvas(tiles, terrain, pos, scale, width, height);
+		        }
+		    }
+
+		</script>
+	</body>
+</html>

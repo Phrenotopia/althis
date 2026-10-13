@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Althis - BETA</title>
+        <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<!--    <script src="../../Scripts/Althis/althis-map-ui.js"></script>
+        <script src="../../Scripts/Althis/althis-map-data.js"></script>
+        <script src="../../Scripts/Althis/althis-map-render.js"></script>-->
+	</head>
+<body onload="javascript:Setup()">
+    <h1>ALTHIS - text version</h1>
+    <select id="SelectMap">
+        <option value="0">- choose map -</option>
+        <option value="1">default</option>
+        <option value="2">simple</option>
+    </select>
+    <input id="btnNewGame" type="button" value="New game" onclick="NewGame()" disabled="disabled" /><br />
+    <select id="SelectGame"/>
+    <input id="btnRefresh" type="button" value="Refresh" onclick="RefreshGames()" />
+    <input id="btnJoinGame" type="button" value="Join game" onclick="JoinGame()" disabled="disabled" /><br />
+    <table>
+        <tr>
+            <td style="text-align: left; vertical-align: top">
+                <textarea id="txtMain" cols="64" rows="32"></textarea>
+            </td>
+            <td style="text-align: left; vertical-align: top">
+                <textarea id="txtStatus" cols="64" rows="32"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="btnNextTurn" type="button" value="Next turn" onclick="NextTurn()" /><br />
+            </td>
+        </tr>
+    </table>
+	<script>
+		var map;
+		var tiles;
+		var mapid = 1;
+		var map_id;
+		//var scale;
+		//var pos;
+		//var terrain;
+		var width;
+		var height;
+		var gameid;
+
+		function Setup()
+		{
+		    $("#SelectMap").change(function () {
+		        var value = $("#SelectMap option:selected").val();
+		        if (value > 0) $("#btnNewGame").removeAttr("disabled");
+		        else $("#btnNewGame").attr("disabled", "disabled");
+		    });
+
+		    $("#SelectGame").change(function ()
+		    {
+		        var value = $("#SelectGame option:selected").val();
+		        if (value > 0)
+		            gameid = value;
+		        $("#txtMain").append("Switched to game:" + gameid + " \n");
+		    });
+
+		    RefreshGames();
+		}
+
+		function NewGame()
+		{
+		    map;
+		    tiles = [];
+		    groups = [];
+		    scale = 50;
+		    pos = 0;
+		    //terrain = new Image();
+		    //terrain.src = 'terrainsprites.png';
+		    width = 16;
+		    height = 16;
+
+		    mapid = $("#SelectMap option:selected").val();
+            if(mapid == 0) return;
+            mapname = $("#SelectMap option:selected").text();
+
+		    $("#scale").text(scale);
+
+		    $.getJSON('/api/game/new/' + mapname)
+               .done(function (game)
+               {
+                   gameid = game.Id;
+                   $("#txtMain").append("Created game: '" + game.Id + "' with map id: " + mapid + ". \n");
+
+		            $.getJSON('/api/map/' + game.MapId)
+                    .done(function (map)
+                    {
+                        tiles = map.Tiles;
+                        $("#txtMain").append("Loaded map: '" + map.Name + "' (" + map.MasterId + ", instance: " + map.Id + ") with " + tiles.length + " tiles. \n");
+                        width = map.Width;
+                        height = map.Height;
+                        map_id = map.Id;
+
+                        $.getJSON('/api/group/bygameid/' + game.Id)
+                        .done(function (groups)
+                        {
+                            $("#txtMain").append("Loaded " + groups.length + " group(s). \n");
+                        }).fail(function () { $("#txtMain").append("Failed to load groups! \n"); });
+                    }).fail(function () { $("#txtMain").append("Failed to load map! \n");});
+               }).fail(function () { $("#txtMain").append("Failed to load game! \n");
+            });
+		}
+
+		function RefreshGames()
+		{
+		    $.getJSON('/api/game/all/test')
+                .done(function (games) {
+                    $('#SelectGame').empty();
+                    $('#SelectGame').append('<option value="0">- choose running game -</option>');
+                    $.each(games, function (index, value) {
+                        $('#SelectGame').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                    })
+                }).fail(function () { $("#txtMain").append("Failed to load games! \n"); });
+		}
+
+		function GetMaps()
+		{
+		    $.getJSON('/api/map/all/test')
+                .done(function (maps) {
+                    $('#SelectMap').empty();
+                    $('#SelectMap').append('<option value="0">- choose map -</option>');
+                    $.each(maps, function (index, value) {
+                        $('#SelectMap').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                    })
+                }).fail(function () { $("#txtMain").append("Failed to load maps! \n"); });
+		}
+
+		function NextTurn()
+		{
+		    $.getJSON('/api/turn/new/' + gameid)
+               .done(function (turn)
+               {
+                   $("#txtMain").append("Did game:" + gameid + "'s turn: '" + turn.Number + "' (id: " + turn.Id + "). \n");
+
+                   $.getJSON('/api/group/bygameid/' + gameid)
+                        .done(function (groups)
+                        {
+                            //$("#txtMain").append("Loaded " + groups.length + " group(s). \n");
+                            $.each(groups, function(index, value) {
+                                $("#txtStatus").append('group:' + value.Id + ' size: ' + value.Size + ' tile wildgame: ' + value.CurrentTile.Resources[1].Quantity + ' tile fruitery: ' + value.CurrentTile.Resources[0].Quantity + '\n');
+                            })
+
+                        }).fail(function () { $("#txtMain").append("Failed to load groups! \n"); });
+
+               }).fail(function () { $("#txtMain").append("Failed to load turn! \n"); });
+		}
+
+    </script>
+</body>
+</html>
