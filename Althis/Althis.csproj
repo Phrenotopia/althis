@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Althis</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <TargetFramework>net45</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>14.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\..\..\Workspace\althis\bin\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\..\Workspace\althis\bin\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net.Http">
+      <HintPath>..\..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework64\v4.0.30319\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\Workspace\althis\bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <ProjectReference Include="..\Althis.Models\Althis.Models.csproj" />
+    <ProjectReference Include="..\Althis.Logic\Althis.Logic.csproj" />
+  </ItemGroup>
+</Project>

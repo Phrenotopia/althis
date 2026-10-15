@@ -1,0 +1,33 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Althis", "Althis\Althis.csproj", "{2AF1FFA0-CEA9-4B84-8194-89F86F99A36C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Althis.Models", "Althis.Models\Althis.Models.csproj", "{E61AB682-AA53-4E72-A479-11528B714134}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Althis.Logic", "Althis.Logic\Althis.Logic.csproj", "{534EE9C8-A9A7-40EB-8CDC-8587ED4D9BCA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AnyCPU = Debug|AnyCPU
+		Release|AnyCPU = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AF1FFA0-CEA9-4B84-8194-89F86F99A36C}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{2AF1FFA0-CEA9-4B84-8194-89F86F99A36C}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{2AF1FFA0-CEA9-4B84-8194-89F86F99A36C}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{2AF1FFA0-CEA9-4B84-8194-89F86F99A36C}.Release|AnyCPU.Build.0 = Release|AnyCPU
+		{E61AB682-AA53-4E72-A479-11528B714134}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{E61AB682-AA53-4E72-A479-11528B714134}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{E61AB682-AA53-4E72-A479-11528B714134}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{E61AB682-AA53-4E72-A479-11528B714134}.Release|AnyCPU.Build.0 = Release|AnyCPU
+		{534EE9C8-A9A7-40EB-8CDC-8587ED4D9BCA}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{534EE9C8-A9A7-40EB-8CDC-8587ED4D9BCA}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{534EE9C8-A9A7-40EB-8CDC-8587ED4D9BCA}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{534EE9C8-A9A7-40EB-8CDC-8587ED4D9BCA}.Release|AnyCPU.Build.0 = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
